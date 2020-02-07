@@ -1,5 +1,7 @@
 import tensorflow as tf
 import os
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 ############################################
 ############################################
@@ -26,8 +28,8 @@ def build_mlp(input_placeholder, output_size, scope, n_layers, size, activation=
     output_placeholder = input_placeholder
     with tf.variable_scope(scope):
         for _ in range(n_layers):
-            output_placeholder = TODO # HINT: use tf.layers.dense (specify <input>, <size>, activation=<?>)
-        output_placeholder = TODO # HINT: use tf.layers.dense (specify <input>, <size>, activation=<?>)
+            output_placeholder = tf.layers.dense(output_placeholder, units=size , activation=activation) # HINT: use tf.layers.dense (specify <input>, <size>, activation=<?>)
+        output_placeholder = tf.layers.dense(output_placeholder, units=output_size, activation=activation) # HINT: use tf.layers.dense (specify <input>, <size>, activation=<?>)
     return output_placeholder
 
 
@@ -53,9 +55,10 @@ def create_tf_session(use_gpu, gpu_frac=0.6, allow_gpu_growth=True, which_gpu=0)
     else:
         # TF config without gpu
         config = tf.ConfigProto(device_count={'GPU': 0})
-
+        #tf2 config = tf.compat.v1.ConfigProto(log_device_placement=True)
     # use config to create TF session
     sess = tf.Session(config=config)
+    # tf2 sess = tf.compat.v1.Session(config=config)
     return sess
 
 def lrelu(x, leak=0.2):

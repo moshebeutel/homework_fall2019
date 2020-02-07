@@ -3,6 +3,8 @@ import tensorflow as tf
 from .base_policy import BasePolicy
 import tensorflow_probability as tfp
 import pickle
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 class Loaded_Gaussian_Policy(BasePolicy):
     def __init__(self, sess, filename, **kwargs):
